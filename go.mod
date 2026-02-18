@@ -1,16 +1,20 @@
-module github.com/blushft/go-diagrams
+module github.com/damianoneill/go-diagrams
 
-go 1.14
+go 1.22
 
 require (
-	github.com/UnnoTed/fileb0x v1.1.4 // indirect
-	github.com/awalterschulze/gographviz v0.0.0-20200901124122-0eecad45bd71
-	github.com/dave/jennifer v1.4.1
-	github.com/davecgh/go-spew v1.1.1
-	github.com/google/uuid v1.1.2
-	github.com/iancoleman/strcase v0.1.1
-	github.com/pkg/errors v0.9.1
-	github.com/stretchr/testify v1.6.1
-	golang.org/x/exp v0.0.0-20200908183739-ae8ad444f925 // indirect
-	golang.org/x/net v0.0.0-20190620200207-3b0461eec859
+	github.com/awalterschulze/gographviz v2.0.3+incompatible
+	github.com/google/uuid v1.6.0
+)
+
+require (
+	github.com/dave/jennifer v1.7.1
+	github.com/iancoleman/strcase v0.3.0
+	github.com/stretchr/testify v1.10.0
+)
+
+require (
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

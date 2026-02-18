@@ -1,6 +1,6 @@
 package apps
 
-import "github.com/blushft/go-diagrams/diagram"
+import "github.com/damianoneill/go-diagrams/diagram"
 
 type iacContainer struct {
 	path string

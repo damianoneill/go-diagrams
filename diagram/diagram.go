@@ -1,9 +1,9 @@
 package diagram
 
 import (
-	"errors"
-	"io/ioutil"
+	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 
 	graphviz "github.com/awalterschulze/gographviz"
@@ -34,15 +34,22 @@ func New(opts ...Option) (*Diagram, error) {
 		}
 	}
 
-	return new(g, options), nil
+	return newDiagram(g, options), nil
 }
 
-func new(g *graphviz.Escape, options Options) *Diagram {
+func newDiagram(g *graphviz.Escape, options Options) *Diagram {
 	return &Diagram{
 		g:       g,
 		options: options,
 		root:    newGroup("root", 0, nil),
 	}
+}
+
+// SetOutputPath overrides the output directory for rendered files.
+// This is useful when you need to control the exact output location,
+// for example in tests or when rendering to a temp directory.
+func (d *Diagram) SetOutputPath(path string) {
+	d.options.Name = path
 }
 
 func (d *Diagram) Nodes() []*Node {
@@ -116,16 +123,38 @@ func (d *Diagram) render() error {
 }
 
 func (d *Diagram) renderOutput() error {
+	// Always save the DOT file first
+	if err := d.saveDot(); err != nil {
+		return err
+	}
+
 	switch d.options.OutFormat {
 	case "dot":
-		return d.saveDot()
+		return nil // DOT file already saved
+	case "png", "jpg", "svg", "pdf":
+		return d.renderImage()
 	default:
-		return errors.New("invalid output format")
+		return fmt.Errorf("unsupported output format: %s", d.options.OutFormat)
 	}
+}
+
+// renderImage invokes the Graphviz dot binary to render the DOT file
+// to the configured image format (png, svg, jpg, pdf).
+func (d *Diagram) renderImage() error {
+	dotFile := filepath.Join(d.options.Name, d.options.FileName+".dot")
+	outFile := filepath.Join(d.options.Name, d.options.FileName+"."+d.options.OutFormat)
+
+	cmd := exec.Command("dot", "-T"+d.options.OutFormat, "-o", outFile, dotFile)
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("graphviz rendering failed: %w: %s", err, string(output))
+	}
+
+	return nil
 }
 
 func (d *Diagram) saveDot() error {
 	fname := filepath.Join(d.options.Name, d.options.FileName+".dot")
 
-	return ioutil.WriteFile(fname, []byte(d.g.String()), os.ModePerm)
+	return os.WriteFile(fname, []byte(d.g.String()), os.ModePerm)
 }

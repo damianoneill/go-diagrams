@@ -14,7 +14,7 @@ func TestRunAttrSuite(t *testing.T) {
 	suite.Run(t, new(AttrSuite))
 }
 
-func (s AttrSuite) TestNewAttributes() {
+func (s *AttrSuite) TestNewAttributes() {
 	attrs := New()
 
 	attrs.Set(Label("test"), Shape("box"))

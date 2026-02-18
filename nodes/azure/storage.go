@@ -1,6 +1,6 @@
 package azure
 
-import "github.com/blushft/go-diagrams/diagram"
+import "github.com/damianoneill/go-diagrams/diagram"
 
 type storageContainer struct {
 	path string

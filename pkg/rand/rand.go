@@ -1,13 +1,8 @@
 package rand
 
-import (
-	"math/rand"
-	"time"
-)
+import "math/rand/v2"
 
 const charset = "abcdefghijlkmnopqrstuvwxyz"
-
-var seed *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 func String(length int) string {
 	return StringWithCharset(length, charset)
@@ -16,7 +11,7 @@ func String(length int) string {
 func StringWithCharset(length int, charset string) string {
 	b := make([]byte, length)
 	for i := range b {
-		b[i] = charset[seed.Intn(len(charset))]
+		b[i] = charset[rand.IntN(len(charset))]
 	}
 
 	return string(b)

@@ -1,15 +1,14 @@
 package diagram
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
 
 	graphviz "github.com/awalterschulze/gographviz"
-	"github.com/blushft/go-diagrams/nodes/assets"
-	"github.com/blushft/go-diagrams/pkg/rand"
+	"github.com/damianoneill/go-diagrams/nodes/assets"
+	"github.com/damianoneill/go-diagrams/pkg/rand"
 )
 
 type Node struct {
@@ -54,7 +53,7 @@ func (n *Node) render(parent string, path string, graph *graphviz.Escape) error 
 		}
 
 		outFile := filepath.Join(outDir, filepath.Base(n.Options.Image))
-		if err := ioutil.WriteFile(outFile, img, os.ModePerm); err != nil {
+		if err := os.WriteFile(outFile, img, os.ModePerm); err != nil {
 			return err
 		}
 	}

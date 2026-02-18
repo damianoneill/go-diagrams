@@ -121,3 +121,9 @@ func LabelJustify(j string) Option {
 		o.Attributes["labeljust"] = j
 	}
 }
+
+func OutputFormat(f string) Option {
+	return func(o *Options) {
+		o.OutFormat = f
+	}
+}
