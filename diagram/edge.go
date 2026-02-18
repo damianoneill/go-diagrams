@@ -106,6 +106,36 @@ func (o EdgeOptions) edgeDirection() string {
 	return "none"
 }
 
+func EdgeLabel(l string) EdgeOption {
+	return func(o *EdgeOptions) {
+		o.Label = l
+	}
+}
+
+func EdgeColor(c string) EdgeOption {
+	return func(o *EdgeOptions) {
+		o.Color = c
+	}
+}
+
+func EdgeStyle(s string) EdgeOption {
+	return func(o *EdgeOptions) {
+		o.Style = s
+	}
+}
+
+func EdgeFontColor(c string) EdgeOption {
+	return func(o *EdgeOptions) {
+		o.Font.Color = c
+	}
+}
+
+func EdgeAttribute(name, value string) EdgeOption {
+	return func(o *EdgeOptions) {
+		o.Attributes[name] = value
+	}
+}
+
 func Forward() EdgeOption {
 	return func(o *EdgeOptions) {
 		o.Forward = true
